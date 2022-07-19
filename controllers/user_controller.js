@@ -1,4 +1,5 @@
-const User = require('../models/user')
+const User = require('../models/user');
+const { use } = require('../routes');
 module.exports.profile = function(req,res){
     return res.render('user.ejs',{
         title:"User Profile"
@@ -44,5 +45,26 @@ module.exports.create = (req,res)=>{
 }
 //signin and create a session for user
 module.exports.createSession = (req,res)=>{
-    //TODO later
+    //Steps to autheticate
+    //Find the user
+    User.findOne({email:req.body.email},(err,user)=>{
+        if(err){
+            console.log("Error in finding user in sigining in");
+            return;
+        }
+        if(user){
+            //handle password
+            if(user.password!=req.body.password){
+                return res.redirect('back');
+            }
+            //handle session creation
+            res.cookie('user_id',user.id)
+            res.redirect('/users/');
+        }
+        else{
+            //handle user not found
+            return res.redirect('back');
+        }
+    })
+    
 }
