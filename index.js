@@ -12,13 +12,14 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
-const { urlencoded } = require('express');
+const MongoStore = require('connect-mongo');
 //Extract styles and scripts from sub pages into layouts
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);
 //set up view engine
 app.set('view engine','ejs');
-app.set('views','./views')
+app.set('views','./views');
+//mongostore is used to store the session cookie in the db
 app.use(session({
     name:'Codeial',
     secret:"hello",
@@ -26,7 +27,19 @@ app.use(session({
     resave:false,
     cookie:{
         maxAge:(1000*60*100)
-    }
+    },
+    // store:new MongoStore({
+    //     mongooseConnection:db,
+    //     autoRemove:'disabled'
+    // },(err)=>{
+    //     if(err){
+    //         console.log(err || 'connect-mongodb setup ok')
+    //     }
+    // })
+    // store:MongoStore.create({
+    //     mongoUrl:db,
+    //     autoRemove:'disabled'
+    // })
 }))
 app.use(passport.initialize());
 app.use(passport.session());
