@@ -1,7 +1,15 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const saasMiddleware = require('node-sass-middleware');
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
+app.use(saasMiddleware({
+    src:"./assests/scss",
+    dest:"./assests/css",
+    debug:true,
+    outputStyle:'expanded',
+    prefix:'/css'
+}))
 app.use(expressLayouts);
 app.use(express.static('./assests'));
 app.use(express.urlencoded());
