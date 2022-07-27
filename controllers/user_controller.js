@@ -1,10 +1,23 @@
 const User = require('../models/user')
 module.exports.profile = function(req,res){
-    return res.render('user.ejs',{
-        title:"User Profile"
-    });
+    User.findById(req.params.id,(err,user)=>{
+        return res.render('user.ejs',{
+            title:"User Profile",
+            profile_user:user
+        });
+    })
+    
 }
-
+module.exports.update = (req,res)=>{
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body,(err,user)=>{
+            return res.redirect('back');
+        })
+    }
+    else{
+        res.status(401).send('Unauthorized');
+    }
+}
 module.exports.signUp = function(req,res){
     //if user is logged in then restricting the user to access sign-up page 
     if(req.isAuthenticated()){
