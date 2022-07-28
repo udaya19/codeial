@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 const saasMiddleware = require('node-sass-middleware');
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
 app.use(saasMiddleware({
     src:"./assests/scss",
     dest:"./assests/css",
@@ -14,6 +16,7 @@ app.use(expressLayouts);
 app.use(express.static('./assests'));
 app.use(express.urlencoded());
 app.use(cookieParser());
+
 const port = 3000
 const db = require('./config/mongoose');
 //used for session cookie
@@ -52,6 +55,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuthenticatedUser);
+app.use(flash())
+app.use(customMware.setFlash)
 //use express routerz
 app.use('/',require('./routes/index'))
 //Running server
