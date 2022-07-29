@@ -16,7 +16,8 @@ app.use(expressLayouts);
 app.use(express.static('./assests'));
 app.use(express.urlencoded());
 app.use(cookieParser());
-
+//make uploads path available to the browser
+app.use('/uploads',express.static(__dirname + '/uploads'));
 const port = 3000
 const db = require('./config/mongoose');
 //used for session cookie

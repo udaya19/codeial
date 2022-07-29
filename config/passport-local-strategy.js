@@ -45,6 +45,7 @@ passport.checkAuthentication = (req,res,next)=>{
 //If user is authenticated storing user details in the locals
 passport.setAuthenticatedUser = (req,res,next)=>{
     if(req.isAuthenticated()){
+        //req.user contains current signed in user om the session cookie
         res.locals.user = req.user
     }
     next();
