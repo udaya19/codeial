@@ -19,7 +19,7 @@ module.exports.index = async function(req, res){
 module.exports.destroy = async (req,res)=>{
     try{
      let post = await Post.findByIdAndDelete(req.params.id)
-     if(post.user == (res.user.id) || '' ){
+     if(post.user == req.user.id){
         //  post.remove();
          await Comment.deleteMany({post:req.params.id})
          return res.status(200).json({
