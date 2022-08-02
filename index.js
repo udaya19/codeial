@@ -42,18 +42,11 @@ app.use(session({
     cookie:{
         maxAge:(1000*60*100)
     },
-    // store:new MongoStore({
-    //     mongooseConnection:db,
-    //     autoRemove:'disabled'
-    // },(err)=>{
-    //     if(err){
-    //         console.log(err || 'connect-mongodb setup ok')
-    //     }
-    // })
-    // store:MongoStore.create({
-    //     mongoUrl:db,
-    //     autoRemove:'disabled'
-    // })
+    store:MongoStore.create({//storing cookies in db so that whenever server restarts cookies won't get destroyed 
+        mongoUrl:'mongodb://localhost/codeial_development',
+        autoRemove:'disabled'
+    })
+
 }))
 app.use(passport.initialize());
 app.use(passport.session());
@@ -68,5 +61,4 @@ app.listen(port,(err)=>{
         console.log("Error:",err)
     } 
     console.log("Server running on port:",port)
-
 })
