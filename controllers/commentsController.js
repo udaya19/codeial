@@ -15,12 +15,12 @@ module.exports.create = async (req,res)=>{
         post.save();
         comment = await comment.populate('user','name email')
         // commentsMailer.newComment(comment)
-        let job = queue.create('emails',comment).save((err)=>{
-            if(err){
-                console.log("Error in creating a queue");
-            }
-            console.log(job.id)
-        })
+        // let job = queue.create('emails',comment).save((err)=>{
+        //     if(err){
+        //         console.log("Error in creating a queue");
+        //     }
+        //     console.log(job.id)
+        // })
         res.redirect('back')
     }
 
